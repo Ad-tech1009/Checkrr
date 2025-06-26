@@ -1,28 +1,24 @@
 import { useState } from 'react';
-import {Link} from 'react-router';
-// import { GoogleLogin } from '@react-oauth/google';
+import {Link, useNavigate} from 'react-router';
 import axios, { AxiosError } from 'axios';
-// import { CredentialResponse } from '@react-oauth/google';
+import { useAuth } from '../context/authContext';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
+  const navigate = useNavigate();
+  const {setUser,setIsLoggedin}=useAuth();
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    if (!email || !password) {
-      setErrorMessage("Please fill in both fields.");
-      return;
-    } 
-
-    setErrorMessage('');
-    
     // Send login data to the backend
     try {
-        const response = await axios.post('http://localhost:5000/auth/login', { email, password });
+        const response = await axios.post('api/auth/login', { email, password });
         console.log("Login response:", response.data);
+        setUser(response.data.data)
+        setIsLoggedin(true)
+        navigate('/');
       } catch (error) {
         // Narrowing down to AxiosError
         if (axios.isAxiosError(error)) {
@@ -49,31 +45,6 @@ export default function Login() {
       }
         
   };
-
-  // Handle Google login success
-//   const handleGoogleLoginSuccess = async (response: CredentialResponse) => {
-    // const credential = response.credential;
-    // if (!credential) {
-    //   setErrorMessage('Google login failed: No credential received');
-    //   return;
-    // }
-
-    // try {
-    //   const res = await axios.post('http://localhost:5000/auth/google-login', { token: credential });
-    //   console.log('Google login success:', res.data);
-    //   setErrorMessage('');
-    //   // Handle successful Google login here (e.g., store JWT, redirect to a protected page)
-    // } catch (error) {
-    //   console.error('Error during Google login:', error);
-    //   setErrorMessage('Google login failed');
-    // }
-//   };
-
-  // Handle Google login error
-//   const handleGoogleLoginError = () => {
-    // console.log('Google login failed');
-    // setErrorMessage('Google login failed');
-//   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
@@ -117,18 +88,6 @@ export default function Login() {
           <span className="mx-2 text-gray-500">or</span>
           <hr className="flex-grow border-gray-300" />
         </div>
-
-        {/* Google Login Button */}
-        {/* <GoogleLogin
-            onSuccess={handleGoogleLoginSuccess}
-            onError={handleGoogleLoginError}
-            useOneTap
-            shape="pill"
-            text="signin_with"
-            theme="filled_blue"
-            width="100%"
-            containerProps={{ className: "w-full py-2 text-white rounded transition duration-300" }}
-          /> */}
 
         <p className="text-center mt-4">
           Don&apos;t have an account? <Link to="/signup" className="text-blue-600 hover:underline">Sign up</Link>

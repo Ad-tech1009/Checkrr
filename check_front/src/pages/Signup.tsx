@@ -1,33 +1,30 @@
 import { useState } from "react";
-import {Link} from "react-router";
+import {Link, useNavigate} from "react-router";
 import axios from "axios";
+import { useAuth } from "../context/authContext";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
+  const {setUser,setIsLoggedin}=useAuth();
+  const navigate = useNavigate();
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validate input
-    // if (!username || !email || !password) {
-    //   setErrorMessage("Please fill in all fields.");
-    //   return;
-    // }
-    // setErrorMessage("");
-
     try {
-      const res = await axios.post("http://localhost:5000/auth/signup", {
+      const res = await axios.post("api/auth/signup", {
         username,
         email,
         password,
       });
 
       console.log("User created:", res.data);
-
       // Redirect or take other actions after signup
+        setUser(res.data.data)
+        setIsLoggedin(true)
+        navigate("/");
     } catch (error) {
       console.error("Signup failed", error);
       if (axios.isAxiosError(error) && error.response) {

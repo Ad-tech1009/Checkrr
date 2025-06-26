@@ -2,8 +2,10 @@ import Card from '../components/Card';
 import { IoIosTime } from "react-icons/io";
 import { MdSavings } from "react-icons/md";
 import {Link} from 'react-router';
+import { useAuth } from '../context/authContext';
 
 export default function Home() {
+  const {user,isLoggedin} = useAuth()
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center">
 
@@ -14,7 +16,9 @@ export default function Home() {
           <img src="/logo.png" alt="Checkrr Logo" width={150} height={50} />
         </div>
         {/* Buttons */}
-          <div className="flex space-x-2 md:space-x-4">
+        {(isLoggedin && user!=null)?
+        <div>{user.name}</div>
+        :<div className="flex space-x-2 md:space-x-4">
             <Link to="/login">
               <button className="px-3 md:px-4 py-1 md:py-2 text-white bg-black rounded hover:bg-blue-600 transition duration-300">
                 Login
@@ -25,7 +29,7 @@ export default function Home() {
                 Signup
               </button>
             </Link>
-          </div>
+          </div>}
       </div>
       
       {/* Hero Section */}
