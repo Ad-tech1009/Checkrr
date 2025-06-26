@@ -1,19 +1,17 @@
-"use client";
-import Image from 'next/image';
 import { useState } from 'react';
 import { IoIosTime } from "react-icons/io";
 import { MdAttachMoney } from "react-icons/md";
-import Link from 'next/link';
-import MapComponent from '../../components/MapComponent'; // Import the new Map Component
-import { LatLng } from 'leaflet'; // Import LatLng type from Leaflet
+import {Link} from 'react-router';
+// import MapComponent from '../../components/MapComponent'; // Import the new Map Component
+// import { LatLng } from 'leaflet'; // Import LatLng type from Leaflet
 
-const CompareRides = () => {
+const Cride = () => {
   const [pickup, setPickup] = useState("");
   const [dropoff, setDropoff] = useState("");
 
   // State for selected locations with LatLng type or null
-  const [pickupLocation, setPickupLocation] = useState<LatLng | null>(null);
-  const [dropoffLocation, setDropoffLocation] = useState<LatLng | null>(null);
+  // const [pickupLocation, setPickupLocation] = useState<LatLng | null>(null);
+  // const [dropoffLocation, setDropoffLocation] = useState<LatLng | null>(null);
 
   const rideOptions = [
     {
@@ -43,8 +41,8 @@ const CompareRides = () => {
     <div className="min-h-screen bg-blue-50 flex flex-col items-center">
       {/* Header */}
       <div className="w-full flex justify-between items-center px-6 md:px-10 py-4">
-        <Link href="/">
-          <Image src="/logo.png" alt="Checkrr Logo" width={150} height={50} />
+        <Link to="/">
+          <img src="/logo.png" alt="Checkrr Logo" width={150} height={50} />
         </Link>
       </div>
 
@@ -75,14 +73,14 @@ const CompareRides = () => {
       </div>
 
       {/* Leaflet Map Section */}
-      <div className="w-full px-4 md:px-10 mt-8">
+      {/* <div className="w-full px-4 md:px-10 mt-8">
         <MapComponent
           pickupLocation={pickupLocation}
           dropoffLocation={dropoffLocation}
           setPickupLocation={setPickupLocation}
           setDropoffLocation={setDropoffLocation}
         />
-      </div>
+      </div> */}
 
       {/* Comparison Results Section */}
       <div className="mt-10 w-full px-4 md:px-10">
@@ -121,4 +119,4 @@ const CompareRides = () => {
   );
 };
 
-export default CompareRides;
+export default Cride;

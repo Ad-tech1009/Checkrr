@@ -1,9 +1,7 @@
-"use client";
-import Image from 'next/image'; 
 import Card from '../components/Card';
 import { IoIosTime } from "react-icons/io";
 import { MdSavings } from "react-icons/md";
-import Link from 'next/link';
+import {Link} from 'react-router';
 
 export default function Home() {
   return (
@@ -13,17 +11,16 @@ export default function Home() {
       <div className="w-full flex justify-between items-center px-6 md:px-10 py-4">
         {/* Logo */}
         <div className="flex-1 text-center">
-          <Image src="/logo.png" alt="Checkrr Logo" width={150} height={50} />
+          <img src="/logo.png" alt="Checkrr Logo" width={150} height={50} />
         </div>
         {/* Buttons */}
-        
           <div className="flex space-x-2 md:space-x-4">
-            <Link href="/login">
+            <Link to="/login">
               <button className="px-3 md:px-4 py-1 md:py-2 text-white bg-black rounded hover:bg-blue-600 transition duration-300">
                 Login
               </button>
             </Link>
-            <Link href="/signup">
+            <Link to="/signup">
               <button className="px-3 md:px-4 py-1 md:py-2 text-white bg-black rounded hover:bg-green-600 transition duration-300">
                 Signup
               </button>
@@ -45,7 +42,7 @@ export default function Home() {
           initialColor="bg-white"
           hoverColor="bg-blue-400 text-white"
           href="/compare-rides"
-          imageSrc="/City driver-cuate.png" // Path to ride comparison image
+          imageSrc="/City driver-cuate.png" 
         />
         <Card
           initialText="Hungry?"

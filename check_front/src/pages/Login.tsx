@@ -1,10 +1,8 @@
-"use client";
 import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { GoogleLogin } from '@react-oauth/google';
+import {Link} from 'react-router';
+// import { GoogleLogin } from '@react-oauth/google';
 import axios, { AxiosError } from 'axios';
-import { CredentialResponse } from '@react-oauth/google';
+// import { CredentialResponse } from '@react-oauth/google';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -53,35 +51,35 @@ export default function Login() {
   };
 
   // Handle Google login success
-  const handleGoogleLoginSuccess = async (response: CredentialResponse) => {
-    const credential = response.credential;
-    if (!credential) {
-      setErrorMessage('Google login failed: No credential received');
-      return;
-    }
+//   const handleGoogleLoginSuccess = async (response: CredentialResponse) => {
+    // const credential = response.credential;
+    // if (!credential) {
+    //   setErrorMessage('Google login failed: No credential received');
+    //   return;
+    // }
 
-    try {
-      const res = await axios.post('http://localhost:5000/auth/google-login', { token: credential });
-      console.log('Google login success:', res.data);
-      setErrorMessage('');
-      // Handle successful Google login here (e.g., store JWT, redirect to a protected page)
-    } catch (error) {
-      console.error('Error during Google login:', error);
-      setErrorMessage('Google login failed');
-    }
-  };
+    // try {
+    //   const res = await axios.post('http://localhost:5000/auth/google-login', { token: credential });
+    //   console.log('Google login success:', res.data);
+    //   setErrorMessage('');
+    //   // Handle successful Google login here (e.g., store JWT, redirect to a protected page)
+    // } catch (error) {
+    //   console.error('Error during Google login:', error);
+    //   setErrorMessage('Google login failed');
+    // }
+//   };
 
   // Handle Google login error
-  const handleGoogleLoginError = () => {
-    console.log('Google login failed');
-    setErrorMessage('Google login failed');
-  };
+//   const handleGoogleLoginError = () => {
+    // console.log('Google login failed');
+    // setErrorMessage('Google login failed');
+//   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
       <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-md">
-        <Link href="/">
-          <Image src="/logo.png" alt="Checkrr Logo" width={150} height={50} className="mx-auto mb-4 cursor-pointer" />
+        <Link to="/">
+          <img src="/logo.png" alt="Checkrr Logo" width={150} height={50} className="mx-auto mb-4 cursor-pointer" />
         </Link>
         <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
         {errorMessage && (
@@ -121,7 +119,7 @@ export default function Login() {
         </div>
 
         {/* Google Login Button */}
-        <GoogleLogin
+        {/* <GoogleLogin
             onSuccess={handleGoogleLoginSuccess}
             onError={handleGoogleLoginError}
             useOneTap
@@ -130,12 +128,16 @@ export default function Login() {
             theme="filled_blue"
             width="100%"
             containerProps={{ className: "w-full py-2 text-white rounded transition duration-300" }}
-          />
+          /> */}
 
         <p className="text-center mt-4">
-          Don&apos;t have an account? <Link href="/signup" className="text-blue-600 hover:underline">Sign up</Link>
+          Don&apos;t have an account? <Link to="/signup" className="text-blue-600 hover:underline">Sign up</Link>
         </p>
       </div>
+      {/* Footer */}
+      <footer className="mt-10 text-center">
+        <p>© 2024 Checkrr. All rights reserved.</p>
+      </footer>
     </div>
   );
 }

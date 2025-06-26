@@ -1,8 +1,5 @@
-"use client";
 import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { GoogleLogin } from "@react-oauth/google";
+import {Link} from "react-router";
 import axios from "axios";
 
 export default function Signup() {
@@ -15,11 +12,11 @@ export default function Signup() {
     e.preventDefault();
 
     // Validate input
-    if (!username || !email || !password) {
-      setErrorMessage("Please fill in all fields.");
-      return;
-    }
-    setErrorMessage("");
+    // if (!username || !email || !password) {
+    //   setErrorMessage("Please fill in all fields.");
+    //   return;
+    // }
+    // setErrorMessage("");
 
     try {
       const res = await axios.post("http://localhost:5000/auth/signup", {
@@ -41,26 +38,11 @@ export default function Signup() {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const responseGoogle = async (credentialResponse: any) => {
-    try {
-      const tokenId = credentialResponse.credential;
-      const res = await axios.post("http://localhost:5000/auth/google-login", { tokenId });
-
-      console.log("Google login successful:", res.data);
-
-      // Redirect or take other actions after successful login/signup
-    } catch (error) {
-      console.error("Google signup failed", error);
-      setErrorMessage("Google login failed");
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
       <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-md">
-        <Link href="/">
-          <Image
+        <Link to="/">
+          <img
             src="/logo.png"
             alt="Checkrr Logo"
             width={150}
@@ -69,7 +51,7 @@ export default function Signup() {
           />
         </Link>
         <h1 className="text-2xl font-bold text-center mb-4">Signup</h1>
-        {errorMessage && <p className="text-red-500 text-center mb-4">{errorMessage}</p>}
+        {<div className="color-red">{errorMessage}</div>}
         <form onSubmit={handleSignup}>
           <div className="mb-4">
             <label htmlFor="username" className="block text-gray-700">Username</label>
@@ -116,22 +98,17 @@ export default function Signup() {
           <span className="mx-2 text-gray-500">or</span>
           <hr className="flex-grow border-gray-300" />
         </div>
-        <GoogleLogin
-          onSuccess={responseGoogle}
-          onError={() => console.log("Google login failed")}
-          useOneTap
-          theme="outline"
-          shape="pill"
-          size="large"
-          text="signup_with"
-        />
         <p className="text-center mt-4">
           Already have an account?{" "}
-          <Link href="/login" className="text-blue-600 hover:underline">
+          <Link to="/login" className="text-blue-600 hover:underline">
             Login
           </Link>
         </p>
       </div>
+      {/* Footer */}
+      <footer className="mt-10 text-center">
+        <p>© 2024 Checkrr. All rights reserved.</p>
+      </footer>
     </div>
   );
 }

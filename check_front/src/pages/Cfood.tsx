@@ -1,9 +1,7 @@
-"use client";
-import Image from 'next/image';
-import Link from 'next/link';
+import {Link} from 'react-router';
 import { useState } from 'react';
 
-export default function CompareFood() {
+export default function Cfood() {
   const [foodCategory, setFoodCategory] = useState('');
   const [location, setLocation] = useState('');
 
@@ -17,8 +15,8 @@ export default function CompareFood() {
       {/* Header with Logo linking to Landing Page */}
       <div className="w-full flex justify-between items-center px-6 md:px-10 py-4">
         <div className="flex-1 text-center">
-          <Link href="/">
-            <Image src="/logo.png" alt="Checkrr Logo" width={150} height={50} />
+          <Link to="/">
+            <img src="/logo.png" alt="Checkrr Logo" width={150} height={50} />
           </Link>
         </div>
       </div>
@@ -60,17 +58,17 @@ export default function CompareFood() {
         {/* Example Food Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
-            <Image src="/food2.jpg" alt="Food Item 1" width={300} height={200} className="rounded" />
+            <img src="/food2.jpg" alt="Food Item 1" width={300} height={200} className="rounded" />
             <h2 className="text-lg font-semibold mt-2 text-green-600">Food Item 1</h2>
             <p className="text-sm text-green-500">Price: $10.99</p>
           </div>
           <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
-            <Image src="/food2.jpg" alt="Food Item 2" width={300} height={200} className="rounded" />
+            <img src="/food2.jpg" alt="Food Item 2" width={300} height={200} className="rounded" />
             <h2 className="text-lg font-semibold mt-2 text-green-600">Food Item 2</h2>
             <p className="text-sm text-green-500">Price: $12.99</p>
           </div>
           <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
-            <Image src="/food2.jpg" alt="Food Item 3" width={300} height={200} className="rounded" />
+            <img src="/food2.jpg" alt="Food Item 3" width={300} height={200} className="rounded" />
             <h2 className="text-lg font-semibold mt-2 text-green-600">Food Item 3</h2>
             <p className="text-sm text-green-500">Price: $8.99</p>
           </div>
