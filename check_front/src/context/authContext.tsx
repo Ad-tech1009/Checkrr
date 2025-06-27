@@ -10,7 +10,6 @@ type AuthContextType = {
   setIsLoggedin: (status: boolean) => void
 }
 
-// 1. Create context with a default shape
 const AuthContext = createContext<AuthContextType>({
   user: null,
   setUser: () => {},
@@ -18,7 +17,6 @@ const AuthContext = createContext<AuthContextType>({
   setIsLoggedin: () => {}
 })
 
-// 2. AuthProvider component
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
   const [isLoggedin, setIsLoggedin] = useState(false)
@@ -30,7 +28,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-// 3. Custom hook to use it
 export function useAuth() {
   return useContext(AuthContext)
 }

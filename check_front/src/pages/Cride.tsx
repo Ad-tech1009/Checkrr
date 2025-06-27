@@ -1,18 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from "react";
 import { IoIosTime } from "react-icons/io";
 import { MdAttachMoney } from "react-icons/md";
-import {Link} from 'react-router';
-// import MapComponent from '../../components/MapComponent'; // Import the new Map Component
-// import { LatLng } from 'leaflet'; // Import LatLng type from Leaflet
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "../context/authContext";
 
 const Cride = () => {
   const [pickup, setPickup] = useState("");
   const [dropoff, setDropoff] = useState("");
+  const { user, setUser, isLoggedin, setIsLoggedin } = useAuth();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
-  // State for selected locations with LatLng type or null
-  // const [pickupLocation, setPickupLocation] = useState<LatLng | null>(null);
-  // const [dropoffLocation, setDropoffLocation] = useState<LatLng | null>(null);
+  const handleLogout = async () => {
+    setUser(null);
+    setIsLoggedin(false);
+    const res = await fetch("api/auth/logout", { method: "GET" });
+    if (!res.ok) {
+      console.error("Logout failed");
+    }
+    console.log("User logged out");
+  };
 
+  useEffect(() => {
+    if(!isLoggedin){
+      navigate("/login");
+      return;
+    }
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isLoggedin,navigate]);
   const rideOptions = [
     {
       provider: "Uber",
@@ -44,6 +71,52 @@ const Cride = () => {
         <Link to="/">
           <img src="/logo.png" alt="Checkrr Logo" width={150} height={50} />
         </Link>
+        {isLoggedin && user != null ? (
+          <div className="relative inline-block text-left">
+            <button
+              onClick={() => setShowDropdown((prev) => !prev)}
+              className="flex items-center space-x-2 bg-black text-white px-3 py-1 md:px-4 md:py-2 rounded hover:bg-gray-800 transition duration-300"
+            >
+              <span>{user.name}</span>
+              <svg
+                className="w-4 h-4 ml-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            {showDropdown && (
+              <div
+                ref={dropdownRef}
+                className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50"
+              >
+                <Link
+                  to="/update-profile"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Update Profile
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex space-x-2 md:space-x-4"></div>
+        )}
       </div>
 
       {/* Title */}
@@ -73,23 +146,20 @@ const Cride = () => {
       </div>
 
       {/* Leaflet Map Section */}
-      {/* <div className="w-full px-4 md:px-10 mt-8">
-        <MapComponent
-          pickupLocation={pickupLocation}
-          dropoffLocation={dropoffLocation}
-          setPickupLocation={setPickupLocation}
-          setDropoffLocation={setDropoffLocation}
-        />
-      </div> */}
 
       {/* Comparison Results Section */}
       <div className="mt-10 w-full px-4 md:px-10">
         {rideOptions.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {rideOptions.map((ride, index) => (
-              <div key={index} className="bg-white p-4 rounded-lg shadow-md flex flex-col border border-blue-300">
+              <div
+                key={index}
+                className="bg-white p-4 rounded-lg shadow-md flex flex-col border border-blue-300"
+              >
                 <div className="flex justify-between items-center">
-                  <h3 className="text-xl font-semibold text-blue-700">{ride.provider}</h3>
+                  <h3 className="text-xl font-semibold text-blue-700">
+                    {ride.provider}
+                  </h3>
                   <span className="flex items-center text-blue-500">
                     <MdAttachMoney className="mr-1" /> {ride.price}
                   </span>

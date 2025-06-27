@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {Link, useNavigate} from "react-router";
+import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { useAuth } from "../context/authContext";
 
@@ -8,7 +8,7 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const {setUser,setIsLoggedin}=useAuth();
+  const { setUser, setIsLoggedin } = useAuth();
   const navigate = useNavigate();
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,9 +22,9 @@ export default function Signup() {
 
       console.log("User created:", res.data);
       // Redirect or take other actions after signup
-        setUser(res.data.data)
-        setIsLoggedin(true)
-        navigate("/");
+      setUser(res.data.data);
+      setIsLoggedin(true);
+      navigate("/");
     } catch (error) {
       console.error("Signup failed", error);
       if (axios.isAxiosError(error) && error.response) {
@@ -51,7 +51,9 @@ export default function Signup() {
         {<div className="color-red">{errorMessage}</div>}
         <form onSubmit={handleSignup}>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-gray-700">Username</label>
+            <label htmlFor="username" className="block text-gray-700">
+              Username
+            </label>
             <input
               type="text"
               id="username"
@@ -62,7 +64,9 @@ export default function Signup() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700">Email</label>
+            <label htmlFor="email" className="block text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -73,7 +77,9 @@ export default function Signup() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700">Password</label>
+            <label htmlFor="password" className="block text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               id="password"
