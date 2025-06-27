@@ -3,6 +3,7 @@ import { IoIosTime } from "react-icons/io";
 import { MdAttachMoney } from "react-icons/md";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../context/authContext";
+import Map from "../components/Map";
 
 const Cride = () => {
   const [pickup, setPickup] = useState("");
@@ -23,10 +24,10 @@ const Cride = () => {
   };
 
   useEffect(() => {
-    if(!isLoggedin){
-      navigate("/login");
-      return;
-    }
+    // if(!isLoggedin){
+    //   navigate("/login");
+    //   return;
+    // }
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
@@ -40,6 +41,7 @@ const Cride = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isLoggedin,navigate]);
+
   const rideOptions = [
     {
       provider: "Uber",
@@ -140,13 +142,21 @@ const Cride = () => {
           onChange={(e) => setDropoff(e.target.value)}
           className="p-2 border border-blue-300 rounded w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-        <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition">
+        <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition" 
+          onClick={() => {
+            // Logic for searching based on pickup and dropoff
+            console.log("Searching for rides from", pickup, "to", dropoff);
+          }
+        }>
           Search
         </button>
       </div>
 
-      {/* Leaflet Map Section */}
-
+      {/* Map Section */}
+      <div className="w-full mt-10 px-4 md:px-10">
+        <Map/>
+      </div>
+      
       {/* Comparison Results Section */}
       <div className="mt-10 w-full px-4 md:px-10">
         {rideOptions.length > 0 ? (
